@@ -1,0 +1,57 @@
+schema: spec-driven
+
+context: |
+  Projeto: CrewOps.
+  Idioma dos artefatos: pt-BR.
+  Objetivo: reconstruir o FieldOps legado em PHP puro como CrewOps, usando o legado como referencia funcional, nao como base tecnica para conversao direta.
+
+  Stack alvo:
+  - Next.js PWA para painel operacional/admin e app mobile web do tecnico.
+  - NestJS API modular.
+  - PostgreSQL + PostGIS como banco principal.
+  - Drizzle ORM para schema, migrations e consultas tipadas.
+  - Redis + BullMQ para filas, jobs, cache, retries e fan-out operacional.
+  - WebSocket para atualizacoes operacionais em primeiro plano.
+  - IndexedDB + Dexie no PWA para trabalho offline/local-first.
+  - S3 ou Cloudflare R2 para fotos, assinaturas e anexos via URLs pre-assinadas.
+  - Docker para ambiente local, homologacao e deploy inicial.
+
+  Diretriz central:
+  - Nao migrar codigo PHP arquivo por arquivo.
+  - Extrair conhecimento do FieldOps: entidades, fluxos, regras de status, permissoes, relatorios, queries importantes, telas realmente usadas e regras escondidas em controllers/views/models.
+  - Reimplementar por dominios e fatias verticais no CrewOps.
+
+  Politica de GPS:
+  - A primeira versao usa localizacao operacional por evento e ultima posicao conhecida.
+  - PWA nao deve prometer rastreamento GPS continuo perfeito em segundo plano ou com tela bloqueada.
+  - Se GPS continuo em segundo plano virar requisito obrigatorio do MVP, a solucao correta passa a exigir app nativo/Expo ou capacidade mobile dedicada.
+
+rules:
+  proposal:
+    - Escrever em pt-BR claro e direto.
+    - Sempre incluir Contexto, Objetivo, Escopo, Fora de escopo, Riscos e Plano de validacao.
+    - Explicitar impacto no legado PHP quando a mudanca tocar comportamento existente.
+    - Nao prometer GPS continuo em segundo plano no PWA.
+    - Preferir entregas por fatia vertical de produto, nao por camada tecnica isolada.
+  design:
+    - Separar ticket, work_order, dispatch, work_order_event, evidence, technician_location, customer e service_address.
+    - Modelar a verdade operacional em eventos/timeline; status atual pode ser coluna derivada ou resumida.
+    - Toda acao critica do tecnico deve nascer como evento local antes de depender da internet.
+    - Considerar idempotency_key em eventos e uploads para evitar duplicidade em sync offline.
+  tasks:
+    - Quebrar tarefas em blocos pequenos, verificaveis e testaveis.
+    - Incluir testes para regras de status, permissao, idempotencia, sync offline, upload pendente e auditoria.
+    - Indicar arquivos ou modulos afetados.
+  specs:
+    - Usar requisitos com SHALL/MUST em ingles apenas quando exigido pelo formato; o texto explicativo deve ficar em pt-BR.
+    - Cada requisito deve ter pelo menos um Scenario verificavel.
+
+operations:
+  apply:
+    guidance:
+      - Aplicar mudancas de forma incremental e manter compatibilidade com a direcao do monorepo crewops.
+      - Antes de implementar telas, garantir contrato de dados, eventos e regras de sync.
+      - Ao tocar fluxo de tecnico, validar comportamento offline e estado pendente de sincronizacao.
+  archive:
+    guidance:
+      - Resumir qual decisao foi consolidada e quais riscos continuam abertos.

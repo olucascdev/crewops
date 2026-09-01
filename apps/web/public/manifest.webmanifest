@@ -1,0 +1,17 @@
+{
+  "name": "CrewOps",
+  "short_name": "CrewOps",
+  "description": "Operational field service control for internet providers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f7f2",
+  "theme_color": "#163b36",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
