@@ -4,6 +4,17 @@ dist
 build
 .turbo
 .env
+.env.*.local
 .env.local
 coverage
 *.log
+*.tsbuildinfo
+playwright-report
+test-results
+.docker
+
+# Generated migration folders
+drizzle/drizzle.json
+
+# Keep generated migrations and the PostGIS extension file tracked; only ignore
+# transient tooling output.

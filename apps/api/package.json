@@ -6,7 +6,9 @@
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run --config vitest.config.ts",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
     "@crewops/db": "0.1.0",
@@ -16,7 +18,9 @@
     "@nestjs/platform-express": "^11.2.1",
     "@nestjs/platform-socket.io": "^11.2.1",
     "@nestjs/websockets": "^11.2.1",
+    "dotenv": "^17.0.0",
     "ioredis": "^5.4.1",
+    "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -24,7 +28,10 @@
     "@nestjs/cli": "^11.0.24",
     "@nestjs/schematics": "^11.0.9",
     "@nestjs/testing": "^11.2.1",
-    "@types/node": "^26.2.0",
-    "typescript": "^6.0.3"
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.11.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
   }
 }

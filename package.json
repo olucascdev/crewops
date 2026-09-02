@@ -8,14 +8,33 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "db:generate": "npm --workspace @crewops/db run generate",
-    "db:migrate": "npm --workspace @crewops/db run migrate"
+    "dev": "npm run build -w @crewops/shared && npm run build -w @crewops/db && concurrently -n api,web -c blue,magenta \"npm run dev -w @crewops/api\" \"npm run dev -w @crewops/web\"",
+    "build": "npm run build -w @crewops/shared && npm run build -w @crewops/db && npm run build -w @crewops/api && npm run build -w @crewops/web",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "npm run build -w @crewops/shared && npm run build -w @crewops/db && npm run typecheck --workspaces --if-present",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "npm run test:unit --workspaces --if-present",
+    "test:integration": "npm run test:integration --workspaces --if-present",
+    "test:e2e": "npm run test:e2e -w @crewops/web",
+    "db:generate": "npm -w @crewops/db run generate",
+    "db:migrate": "npm -w @crewops/db run migrate",
+    "db:migrate:check": "npm -w @crewops/db run migrate:check",
+    "db:rollback": "npm -w @crewops/db run rollback",
+    "db:seed": "npm -w @crewops/db run seed",
+    "openspec:validate": "./scripts/validate_openspec.sh"
   },
   "engines": {
     "node": ">=20.11"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.11",
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "concurrently": "^10.0.5",
+    "drizzle-orm": "^0.45.2",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
   }
 }
