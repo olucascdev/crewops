@@ -9,4 +9,9 @@ export function createDb(databaseUrl: string) {
   return drizzle(pool, { schema });
 }
 
+export function createPool(databaseUrl: string): pg.Pool {
+  return new Pool({ connectionString: databaseUrl });
+}
+
+export * from "./env";
 export * from "./schema";
