@@ -1,5 +1,5 @@
+import { type TechnicianEventType, technicianEventTypes } from "@crewops/shared";
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { technicianEventTypes, type TechnicianEventType } from "@crewops/shared";
 
 type LocationEventInput = {
   technicianId: string;
@@ -20,7 +20,7 @@ export class OperationsController {
       continuousBackgroundTracking: false,
       allowedEvents: technicianEventTypes,
       message:
-        "CrewOps PWA stores GPS as operational events. It does not run continuous background tracking."
+        "CrewOps PWA stores GPS as operational events. It does not run continuous background tracking.",
     };
   }
 
@@ -31,8 +31,8 @@ export class OperationsController {
       event: {
         ...input,
         capturedAt: input.capturedAt ?? new Date().toISOString(),
-        source: "pwa_foreground"
-      }
+        source: "pwa_foreground",
+      },
     };
   }
 }

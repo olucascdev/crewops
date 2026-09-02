@@ -3,15 +3,15 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer
+  WebSocketServer,
 } from "@nestjs/websockets";
 import type { Server, Socket } from "socket.io";
 
 @WebSocketGateway({
   cors: {
     origin: process.env.WEB_ORIGIN?.split(",") ?? ["http://localhost:3000"],
-    credentials: true
-  }
+    credentials: true,
+  },
 })
 export class RealtimeGateway {
   @WebSocketServer()
