@@ -1,40 +1,40 @@
 ## 1. Governanca, baseline e criterios do piloto
 
-- [ ] 1.1 Registrar em `docs/` os responsaveis por produto, operacao, arquitetura, dados e decisao de corte.
-- [ ] 1.2 Definir empresa, filiais, usuarios, tecnicos e volume representativo do piloto em `docs/MVP_SCOPE.md`.
-- [ ] 1.3 Registrar criterios mensuraveis de sucesso, severidades de defeito e gates de entrada/saida de cada fase em `docs/ACCEPTANCE_PLAN.md`.
-- [ ] 1.4 Criar glossario aprovado para `ticket`, `work_order`, `dispatch`, `event`, `evidence`, `technician_location`, `customer` e `service_address`.
-- [ ] 1.5 Levantar baseline do FieldOps: volume, tempos, erros conhecidos, telas usadas e indicadores operacionais atuais.
-- [ ] 1.6 Documentar a politica comercial de GPS por evento e ultima posicao conhecida, proibindo promessa de rastreamento continuo no PWA.
-- [ ] 1.7 Criar registro de decisoes e pendencias com dono e prazo para S3/R2, mapa, thresholds de recencia e recorte historico.
+- [x] 1.1 Registrar em `docs/` os responsaveis por produto, operacao, arquitetura, dados e decisao de corte.
+- [x] 1.2 Definir empresa, filiais, usuarios, tecnicos e volume representativo do piloto em `docs/MVP_SCOPE.md`.
+- [x] 1.3 Registrar criterios mensuraveis de sucesso, severidades de defeito e gates de entrada/saida de cada fase em `docs/ACCEPTANCE_PLAN.md`.
+- [x] 1.4 Criar glossario aprovado para `ticket`, `work_order`, `dispatch`, `event`, `evidence`, `technician_location`, `customer` e `service_address`.
+- [x] 1.5 Levantar baseline do FieldOps: volume, tempos, erros conhecidos, telas usadas e indicadores operacionais atuais.
+- [x] 1.6 Documentar a politica comercial de GPS por evento e ultima posicao conhecida, proibindo promessa de rastreamento continuo no PWA.
+- [x] 1.7 Criar registro de decisoes e pendencias com dono e prazo para S3/R2, mapa, thresholds de recencia e recorte historico.
 
 ## 2. Inventario funcional do legado PHP
 
-- [ ] 2.1 Mapear autenticacao, sessao, usuarios e RBAC em `app/Controllers/*Auth*`, middlewares, models e migrations para `docs/BUSINESS_RULES.md`.
-- [ ] 2.2 Mapear empresa/tenant, filiais, tecnicos e disponibilidade em controllers, models, views e SQL do legado.
-- [ ] 2.3 Mapear clientes e sites/enderecos, incluindo campos obrigatorios, geolocalizacao, exclusao e duplicidade.
-- [ ] 2.4 Mapear tickets do cadastro ao encerramento, incluindo status, prioridade, SLA, anexos e conversao em OS.
-- [ ] 2.5 Mapear OS em `WorkOrderController.php`, `WorkOrder.php`, views e migrations, cobrindo criacao, status, despacho, retrabalho e finalizacao.
-- [ ] 2.6 Mapear app tecnico em `App/HomeController.php` e views, cobrindo lista, detalhe, check-in, checklist, notas, assinatura e sync.
-- [ ] 2.7 Mapear evidencias em `WorkOrderEvidence.php`, endpoints e armazenamento atual, registrando limites e falhas conhecidas.
-- [ ] 2.8 Mapear localizacao e mapa em `MapOpsController.php`, perfil do tecnico e migrations 039/040, distinguindo ponto atual de ponto antigo.
-- [ ] 2.9 Mapear sync legado em `syncData`, `syncActions`, migrations e JavaScript do app, identificando duplicacao, ordem e conflitos.
-- [ ] 2.10 Mapear queries e definicoes dos indicadores de dashboard, atraso, tecnico parado, rework e finalizacao do dia.
-- [ ] 2.11 Classificar cada comportamento encontrado como `preservar`, `redesenhar`, `adiar` ou `descartar`, com justificativa.
-- [ ] 2.12 Criar matriz rastreavel `fonte PHP -> regra -> spec OpenSpec -> tarefa -> teste` e aprova-la com produto/operacao.
+- [x] 2.1 Mapear autenticacao, sessao, usuarios e RBAC em `app/Controllers/*Auth*`, middlewares, models e migrations para `docs/BUSINESS_RULES.md`.
+- [x] 2.2 Mapear empresa/tenant, filiais, tecnicos e disponibilidade em controllers, models, views e SQL do legado.
+- [x] 2.3 Mapear clientes e sites/enderecos, incluindo campos obrigatorios, geolocalizacao, exclusao e duplicidade.
+- [x] 2.4 Mapear tickets do cadastro ao encerramento, incluindo status, prioridade, SLA, anexos e conversao em OS.
+- [x] 2.5 Mapear OS em `WorkOrderController.php`, `WorkOrder.php`, views e migrations, cobrindo criacao, status, despacho, retrabalho e finalizacao.
+- [x] 2.6 Mapear app tecnico em `App/HomeController.php` e views, cobrindo lista, detalhe, check-in, checklist, notas, assinatura e sync.
+- [x] 2.7 Mapear evidencias em `WorkOrderEvidence.php`, endpoints e armazenamento atual, registrando limites e falhas conhecidas.
+- [x] 2.8 Mapear localizacao e mapa em `MapOpsController.php`, perfil do tecnico e migrations 039/040, distinguindo ponto atual de ponto antigo.
+- [x] 2.9 Mapear sync legado em `syncData`, `syncActions`, migrations e JavaScript do app, identificando duplicacao, ordem e conflitos.
+- [x] 2.10 Mapear queries e definicoes dos indicadores de dashboard, atraso, tecnico parado, rework e finalizacao do dia.
+- [x] 2.11 Classificar cada comportamento encontrado como `preservar`, `redesenhar`, `adiar` ou `descartar`, com justificativa.
+- [x] 2.12 Criar matriz rastreavel `fonte PHP -> regra -> spec OpenSpec -> tarefa -> teste` e aprova-la com produto/operacao.
 
 ## 3. Fechamento das regras do MVP
 
-- [ ] 3.1 Consolidar `docs/WORK_ORDER_FLOW.md` com atores, pre-condicoes e caminho feliz ponta a ponta.
-- [ ] 3.2 Aprovar matriz de estados e transicoes de ticket, incluindo autor e motivo de cada transicao.
-- [ ] 3.3 Aprovar matriz de estados e transicoes de OS a partir dos estados observados no legado.
-- [ ] 3.4 Definir quais evidencias sao obrigatorias por tipo de OS e quando a validacao administrativa e necessaria.
-- [ ] 3.5 Definir politica de reatribuicao, cancelamento, reabertura, retrabalho e acao offline concorrente.
-- [ ] 3.6 Definir matriz simples de permissoes dos cinco perfis por recurso e acao.
-- [ ] 3.7 Definir campos obrigatorios e validacoes de empresa, filial, usuario, tecnico, cliente, endereco, ticket e OS.
-- [ ] 3.8 Definir thresholds de OS atrasada, tecnico parado, sync antigo e localizacao desatualizada.
-- [ ] 3.9 Publicar `docs/API_CONTRACT.md` com recursos, erros estaveis, paginacao, datas UTC e estrategia de versao.
-- [ ] 3.10 Executar o gate funcional: nenhuma fatia de implementacao inicia com regra essencial sem decisao ou criterio de aceite.
+- [x] 3.1 Consolidar `docs/WORK_ORDER_FLOW.md` com atores, pre-condicoes e caminho feliz ponta a ponta.
+- [x] 3.2 Aprovar matriz de estados e transicoes de ticket, incluindo autor e motivo de cada transicao.
+- [x] 3.3 Aprovar matriz de estados e transicoes de OS a partir dos estados observados no legado.
+- [x] 3.4 Definir quais evidencias sao obrigatorias por tipo de OS e quando a validacao administrativa e necessaria.
+- [x] 3.5 Definir politica de reatribuicao, cancelamento, reabertura, retrabalho e acao offline concorrente.
+- [x] 3.6 Definir matriz simples de permissoes dos cinco perfis por recurso e acao.
+- [x] 3.7 Definir campos obrigatorios e validacoes de empresa, filial, usuario, tecnico, cliente, endereco, ticket e OS.
+- [x] 3.8 Definir thresholds de OS atrasada, tecnico parado, sync antigo e localizacao desatualizada.
+- [x] 3.9 Publicar `docs/API_CONTRACT.md` com recursos, erros estaveis, paginacao, datas UTC e estrategia de versao.
+- [x] 3.10 Executar o gate funcional: nenhuma fatia de implementacao inicia com regra essencial sem decisao ou criterio de aceite.
 
 ## 4. Fundacao do monorepo e ambientes
 

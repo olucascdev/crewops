@@ -1,6 +1,20 @@
 # Mapa de Referencia do Legado PHP
 
-Este documento aponta onde procurar conhecimento funcional no FieldOps atual. Ele nao define que a implementacao nova deve copiar a estrutura antiga.
+> Change: `crewops/openspec/changes/migrar-fieldops-para-crewops-mvp/` — Grupo 2
+> Status do inventário: **CONCLUÍDO (Grupo 2)**. O inventário funcional do legado está registrado em:
+> - `docs/BUSINESS_RULES.md` — regras por domínio (2.1–2.10).
+> - `docs/LEGACY_INVENTORY.md` — inventário detalhado (queries, enums, status, permissões).
+> - `docs/CLASSIFICATION.md` — classificação 2.11 (preservar/redesenhar/adiar/descartar).
+> - `docs/TRACEABILITY_MATRIX.md` — matriz 2.12 (fonte → regra → spec → tarefa → teste).
+>
+> Este documento continua sendo o **índice de onde procurar** conhecimento funcional. Ele não define que a implementação nova deve copiar a estrutura antiga.
+
+## Como consultar este inventário
+
+1. Para cada domínio (autenticação, OS, tickets, técnicos, mapa, sync, evidências, indicadores), ler `docs/BUSINESS_RULES.md`.
+2. Para basear-se em evidência bruta (snippets, queries, enums), ler `docs/LEGACY_INVENTORY.md`.
+3. Para decidir o que entra no MVP, ler `docs/CLASSIFICATION.md` (2.11).
+4. Para rastrear cada regra até spec/tarefa/teste, usar `docs/TRACEABILITY_MATRIX.md` (2.12).
 
 ## Modulos Encontrados
 
@@ -116,7 +130,9 @@ Arquivos:
 
 - `database/migrations/011_mobile_sync_compat_v032c.sql`;
 - `resources/views/app/sync/index.php`;
-- controllers do app em `app/Controllers/App`.
+- `public/assets/js/fieldops-app.js` (fila IndexedDB `fieldops-mobile` v3: stores `activities`/`queue`/`meta`);
+- `app/Controllers/App/HomeController.php` (`syncData`, `syncActions`, `pingLocation`, `uploadEvidence`);
+- `app/Models/WorkOrder.php` (`buildTechnicianSyncPayload`, `applyTechnicianAction`, `listForTechnicianSync`, `syncMeta`).
 
 Extrair:
 
@@ -124,7 +140,8 @@ Extrair:
 - conflitos conhecidos;
 - estados pendentes;
 - mensagens para tecnico;
-- erros frequentes.
+- erros frequentes;
+- riscos de duplicação/ordem (sem idempotência — ver `docs/BUSINESS_RULES.md` §2.9).
 
 ## Tabelas Legadas Relevantes
 
