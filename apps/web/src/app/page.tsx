@@ -1,3 +1,4 @@
+import { gpsPolicy } from "@crewops/shared";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -7,21 +8,32 @@ import {
   Route,
   ShieldCheck,
   Truck,
-  Wifi
+  Wifi,
 } from "lucide-react";
-import { gpsPolicy } from "@crewops/shared";
 
 const workOrders = [
-  { code: "OS-1048", city: "São Mateus", tech: "Rafael", status: "Em deslocamento", tone: "yellow" },
+  {
+    code: "OS-1048",
+    city: "São Mateus",
+    tech: "Rafael",
+    status: "Em deslocamento",
+    tone: "yellow",
+  },
   { code: "OS-1049", city: "Guriri", tech: "Marta", status: "No local", tone: "green" },
-  { code: "OS-1050", city: "Conceição", tech: "Diego", status: "Aguardando evidência", tone: "blue" }
+  {
+    code: "OS-1050",
+    city: "Conceição",
+    tech: "Diego",
+    status: "Aguardando evidência",
+    tone: "blue",
+  },
 ];
 
 const events = [
   "Rafael iniciou deslocamento com GPS registrado",
   "Marta chegou ao local e anexou foto da CTO",
   "Diego sincronizou fila offline em primeiro plano",
-  "OS-1046 concluída com assinatura do cliente"
+  "OS-1046 concluída com assinatura do cliente",
 ];
 
 export default function HomePage() {
@@ -33,10 +45,18 @@ export default function HomePage() {
           <span>CrewOps</span>
         </div>
         <nav className="nav">
-          <a className="active" href="#"><RadioTower size={18} /> Operação</a>
-          <a href="#"><MapPin size={18} /> Mapa</a>
-          <a href="#"><Truck size={18} /> Ordens</a>
-          <a href="#"><Wifi size={18} /> Técnicos</a>
+          <a className="active" href="/operacao">
+            <RadioTower size={18} /> Operação
+          </a>
+          <a href="/mapa">
+            <MapPin size={18} /> Mapa
+          </a>
+          <a href="/ordens">
+            <Truck size={18} /> Ordens
+          </a>
+          <a href="/tecnicos">
+            <Wifi size={18} /> Técnicos
+          </a>
         </nav>
       </aside>
 
@@ -88,12 +108,18 @@ export default function HomePage() {
               </div>
               <span className="liveBadge">ao vivo</span>
             </div>
-            <div className="mapCanvas" aria-label="Mapa ilustrativo de técnicos">
+            <div className="mapCanvas" role="img" aria-label="Mapa ilustrativo de técnicos">
               <span className="road roadA" />
               <span className="road roadB" />
-              <span className="pin pinA"><Truck size={18} /></span>
-              <span className="pin pinB"><CheckCircle2 size={18} /></span>
-              <span className="pin pinC"><AlertTriangle size={18} /></span>
+              <span className="pin pinA">
+                <Truck size={18} />
+              </span>
+              <span className="pin pinB">
+                <CheckCircle2 size={18} />
+              </span>
+              <span className="pin pinC">
+                <AlertTriangle size={18} />
+              </span>
             </div>
           </div>
 
@@ -107,7 +133,9 @@ export default function HomePage() {
                 <article className="orderItem" key={order.code}>
                   <div>
                     <strong>{order.code}</strong>
-                    <span>{order.city} · {order.tech}</span>
+                    <span>
+                      {order.city} · {order.tech}
+                    </span>
                   </div>
                   <em data-tone={order.tone}>{order.status}</em>
                 </article>

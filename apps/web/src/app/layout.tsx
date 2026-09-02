@@ -4,11 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "CrewOps",
   description: "Operational field service control for internet providers.",
-  manifest: "/manifest.webmanifest"
+  manifest: "/manifest.webmanifest",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#163b36"
+  themeColor: "#163b36",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

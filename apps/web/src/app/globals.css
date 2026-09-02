@@ -251,8 +251,7 @@ h2 {
   overflow: hidden;
   background:
     radial-gradient(circle at 18% 20%, rgba(244, 201, 93, 0.45), transparent 18%),
-    radial-gradient(circle at 80% 78%, rgba(67, 124, 144, 0.24), transparent 22%),
-    var(--field);
+    radial-gradient(circle at 80% 78%, rgba(67, 124, 144, 0.24), transparent 22%), var(--field);
 }
 
 .road {
