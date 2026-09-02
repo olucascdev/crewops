@@ -98,6 +98,31 @@ export class HealthService {
     };
   }
 
+  /**
+   * Liveness: probes only the process, never the database/Redis/queues. Always
+   * HTTP 200 while the Node process is alive, regardless of dependency health.
+   * Orchestrators and docker healthchecks that need dependency awareness use
+   * `/health/ready` instead.
+   */
+  async live(): Promise<HealthSnapshot> {
+    const process = this.checkProcess();
+    return {
+      status: process.status === "up" ? "healthy" : "unhealthy",
+      service: "crewops-api",
+      timestamp: new Date().toISOString(),
+      uptimeSeconds: Math.floor((Date.now() - this.startedAt) / 1000),
+      checks: {
+        process,
+        // Not probed by liveness; the readiness endpoint (`check()`) reports the
+        // real dependency state. Marking them "up" keeps the payload shape stable
+        // without asserting a dependency that was not contacted.
+        database: { status: "up" },
+        redis: { status: "up" },
+        queues: { status: "up" },
+      },
+    };
+  }
+
   private checkProcess(): HealthCheck {
     return { status: "up" };
   }

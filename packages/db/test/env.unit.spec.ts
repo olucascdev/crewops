@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { DbConfigError, requireDatabaseUrl } from "../src/env";
 
 describe("db env validation", () => {
@@ -9,7 +9,7 @@ describe("db env validation", () => {
 
   it("requireDatabaseUrl returns the value when set", () => {
     expect(
-      requireDatabaseUrl({ DATABASE_URL: "postgres://crewops:crewops@localhost:5432/crewops" })
+      requireDatabaseUrl({ DATABASE_URL: "postgres://crewops:crewops@localhost:5432/crewops" }),
     ).toBe("postgres://crewops:crewops@localhost:5432/crewops");
   });
 

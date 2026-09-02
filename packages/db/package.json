@@ -15,7 +15,11 @@
     "test:unit": "vitest run --config vitest.config.ts",
     "test:integration": "vitest run --config vitest.integration.config.ts"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
+    "dotenv": "^17.0.0",
     "drizzle-orm": "^0.45.2",
     "pg": "^8.12.0"
   },

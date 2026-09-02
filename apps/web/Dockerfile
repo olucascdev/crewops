@@ -2,7 +2,7 @@
 # A deployment/pipeline performs the publish-time env injection; the ARG defaults
 # match local development (see .env.example).
 
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 

@@ -22,8 +22,8 @@ describe("server env validation", () => {
       loadServerEnv({
         NODE_ENV: "homologation",
         NEXT_PUBLIC_API_URL: "http://localhost:4000",
-        NEXT_PUBLIC_WS_URL: "http://localhost:4000"
-      })
+        NEXT_PUBLIC_WS_URL: "http://localhost:4000",
+      }),
     ).toThrow(/Invalid NODE_ENV/);
   });
 

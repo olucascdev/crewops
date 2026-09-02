@@ -6,20 +6,11 @@ export type WebEnv = {
   publicWsUrl: string;
 };
 
-function required(name: string, value: string | undefined): string {
-  if (!value || value.trim() === "") {
-    throw new Error(
-      `[crewops-web] Missing required environment variable "${name}". ` +
-        "Set it in your environment or a .env file (see .env.example).",
-    );
-  }
-  return value;
-}
-
 /**
- * Validated, server-only environment for the web app. Importing this module
- * throws at build/start if a required variable is absent, so the app fails with
- * a clear message instead of running against `undefined`.
+ * Validated, server-only environment for the web app. Throws a single error
+ * listing every missing required variable so the build/start fails fast with an
+ * actionable message instead of running against `undefined`. Rejects an
+ * unknown NODE_ENV. Called from `next.config.ts` at build/start time.
  */
 export function loadServerEnv(env: Record<string, string | undefined>): WebEnv {
   const nodeEnv = (env.NODE_ENV ?? "development") as AppEnvironment;
@@ -29,9 +20,25 @@ export function loadServerEnv(env: Record<string, string | undefined>): WebEnv {
     );
   }
 
+  const apiUrl = (env.NEXT_PUBLIC_API_URL ?? "").trim();
+  const wsUrl = (env.NEXT_PUBLIC_WS_URL ?? "").trim();
+  const missing: string[] = [];
+  if (!apiUrl) {
+    missing.push("NEXT_PUBLIC_API_URL");
+  }
+  if (!wsUrl) {
+    missing.push("NEXT_PUBLIC_WS_URL");
+  }
+  if (missing.length > 0) {
+    throw new Error(
+      `[crewops-web] Missing required environment variable(s): ${missing.join(", ")}. ` +
+        "See .env.example.",
+    );
+  }
+
   return {
     env: nodeEnv,
-    publicApiUrl: required("NEXT_PUBLIC_API_URL", env.NEXT_PUBLIC_API_URL),
-    publicWsUrl: required("NEXT_PUBLIC_WS_URL", env.NEXT_PUBLIC_WS_URL)
+    publicApiUrl: apiUrl,
+    publicWsUrl: wsUrl,
   };
 }

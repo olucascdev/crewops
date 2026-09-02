@@ -2,7 +2,7 @@
 # Multi-stage not required for the pilot; a single image keeps the build simple
 # and reproducible. Tag/registry pinning belongs to the deployment pipeline.
 
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 

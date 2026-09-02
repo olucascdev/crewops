@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "npm run build -w @crewops/shared && npm run build -w @crewops/db && concurrently -n api,web -c blue,magenta \"npm run dev -w @crewops/api\" \"npm run dev -w @crewops/web\"",
     "build": "npm run build -w @crewops/shared && npm run build -w @crewops/db && npm run build -w @crewops/api && npm run build -w @crewops/web",
+    "clean": "rm -rf dist apps/*/dist packages/*/dist apps/*/.next .turbo && find . -name '*.tsbuildinfo' -not -path '*/node_modules/*' -delete",
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "npm run build -w @crewops/shared && npm run build -w @crewops/db && npm run typecheck --workspaces --if-present",
@@ -20,12 +21,13 @@
     "db:generate": "npm -w @crewops/db run generate",
     "db:migrate": "npm -w @crewops/db run migrate",
     "db:migrate:check": "npm -w @crewops/db run migrate:check",
+    "db:status": "npm -w @crewops/db run migrate:check",
     "db:rollback": "npm -w @crewops/db run rollback",
-    "db:seed": "npm -w @crewops/db run seed",
+    "db:seed": "npm -w @crewops/db run seed --",
     "openspec:validate": "./scripts/validate_openspec.sh"
   },
   "engines": {
-    "node": ">=20.11"
+    "node": ">=24"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.11",

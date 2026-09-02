@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import { sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/node-postgres";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
-import { requireDatabaseUrl, requireNodeEnv } from "./env";
+import { loadDbEnv, requireDatabaseUrl, requireNodeEnv } from "./env";
 import * as schema from "./schema";
 
 const { Pool } = pg;
@@ -30,13 +30,17 @@ export type SeedResult = {
 const DEV_PASSWORD_HASH = createHash("sha256").update("crewops-dev-password").digest("hex");
 
 const TABLES_TO_CLEAR = [
-  "work_order_evidences",
-  "files",
+  "evidences",
+  "technician_locations",
   "work_order_events",
-  "technician_location_events",
+  "sync_receipts",
+  "dispatches",
+  "audit_logs",
   "work_orders",
   "tickets",
-  "customer_addresses",
+  "sessions",
+  "files",
+  "service_addresses",
   "customers",
   "technicians",
   "users",
@@ -80,9 +84,11 @@ export async function seedDatabase(
         .insert(schema.branches)
         .values({
           companyId: company.id,
+          code: "MATRIZ",
           name: "Matriz",
           city: "São Mateus",
           state: "ES",
+          timezone: "America/Sao_Paulo",
           active: true,
         })
         .returning()
@@ -98,8 +104,8 @@ export async function seedDatabase(
           name: "Administrador Piloto",
           email: "admin@example.com",
           passwordHash: DEV_PASSWORD_HASH,
-          role: "owner",
-          active: true,
+          role: "admin",
+          status: "active",
         })
         .returning()
     )[0];
@@ -114,8 +120,8 @@ export async function seedDatabase(
           name: "Despachante Piloto",
           email: "dispatcher@example.com",
           passwordHash: DEV_PASSWORD_HASH,
-          role: "dispatcher",
-          active: true,
+          role: "despachante",
+          status: "active",
         })
         .returning()
     )[0];
@@ -130,8 +136,8 @@ export async function seedDatabase(
           name: "Técnico Piloto",
           email: "technician@example.com",
           passwordHash: DEV_PASSWORD_HASH,
-          role: "technician",
-          active: true,
+          role: "tecnico",
+          status: "active",
         })
         .returning()
     )[0];
@@ -145,7 +151,8 @@ export async function seedDatabase(
           branchId: branch.id,
           userId: technicianUser.id,
           phone: "27999990000",
-          active: true,
+          status: "active",
+          availabilityStatus: "available",
         })
         .returning()
     )[0];
@@ -159,7 +166,9 @@ export async function seedDatabase(
           branchId: branch.id,
           name: "Cliente Piloto",
           document: "12345678901",
+          email: "cliente@example.com",
           phone: "27999990001",
+          status: "active",
         })
         .returning()
     )[0];
@@ -167,8 +176,9 @@ export async function seedDatabase(
 
     const address = (
       await tx
-        .insert(schema.customerAddresses)
+        .insert(schema.serviceAddresses)
         .values({
+          companyId: company.id,
           customerId: customer.id,
           label: "Principal",
           street: "Av. Central",
@@ -197,6 +207,7 @@ export async function seedDatabase(
 }
 
 async function runCli(): Promise<void> {
+  loadDbEnv();
   if (requireNodeEnv(process.env) === "production") {
     throw new Error("seed: refused to run in production.");
   }

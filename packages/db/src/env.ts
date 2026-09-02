@@ -1,3 +1,6 @@
+import { join } from "node:path";
+import { config as loadDotEnv } from "dotenv";
+
 /**
  * Thrown when a required env var (DATABASE_URL) is missing. Used by the
  * migration/seed runners so a missing connection fails with an actionable
@@ -8,6 +11,17 @@ export class DbConfigError extends Error {
     super(message);
     this.name = "DbConfigError";
   }
+}
+
+/**
+ * Loads `.env` from the current directory (workspace-local) and from two levels
+ * up (the monorepo root where the curated `.env.example` → `.env` lives). It is
+ * a no-op when the files are absent and never overrides already-set variables.
+ * The migration/seed CLI runners call this so `npm run db:migrate:check`,
+ * `db:rollback` and `db:seed` read `DATABASE_URL` from the repo root `.env`.
+ */
+export function loadDbEnv(cwd: string = process.cwd()): void {
+  loadDotEnv({ path: [join(cwd, ".env"), join(cwd, "../../.env")] });
 }
 
 export function requireDatabaseUrl(env: NodeJS.ProcessEnv): string {

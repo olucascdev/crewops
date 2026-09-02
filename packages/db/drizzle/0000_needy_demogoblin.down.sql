@@ -20,4 +20,6 @@ DROP TYPE IF EXISTS "public"."work_order_status";
 DROP TYPE IF EXISTS "public"."technician_event_type";
 DROP TYPE IF EXISTS "public"."user_role";
 
-DROP EXTENSION IF EXISTS "postgis";
+-- CASCADE is required because the official postgis/postgis image pre-creates
+-- `postgis_topology` and `postgis_tiger_geocoder`, which depend on `postgis`.
+DROP EXTENSION IF EXISTS "postgis" CASCADE;
