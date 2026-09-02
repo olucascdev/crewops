@@ -38,29 +38,29 @@
 
 ## 4. Fundacao do monorepo e ambientes
 
-- [ ] 4.1 Auditar `package.json`, workspaces e versoes de Node/TypeScript; alinhar scripts `dev`, `build`, `lint`, `typecheck` e `test`.
-- [ ] 4.2 Completar `.env.example` com variaveis tipadas para API, web, PostgreSQL/PostGIS, Redis, S3/R2 e WebSocket sem segredos reais.
-- [ ] 4.3 Ajustar `docker-compose.yml` para PostgreSQL com PostGIS, Redis, API e web com volumes e healthchecks reproduziveis.
-- [ ] 4.4 Criar validacao de configuracao na inicializacao de `apps/api` e `apps/web`, falhando com mensagem clara em variavel obrigatoria ausente.
-- [ ] 4.5 Configurar migrations Drizzle deterministicas e comandos de aplicar/verificar rollback compativel com a estrategia do projeto.
-- [ ] 4.6 Configurar testes unitarios, integracao e E2E por workspace, com banco e Redis isolados para teste.
-- [ ] 4.7 Configurar CI para install bloqueado, lint, typecheck, testes, build e validacao OpenSpec.
-- [ ] 4.8 Adicionar endpoints de saude da API para processo, banco, Redis e filas, distinguindo saudavel de degradado.
-- [ ] 4.9 Criar dados seed minimos do piloto para desenvolvimento, sem copiar massa sensivel do FieldOps.
-- [ ] 4.10 Validar onboarding local do zero e registrar os comandos em `README.md`.
+- [x] 4.1 Auditar `package.json`, workspaces e versoes de Node/TypeScript; alinhar scripts `dev`, `build`, `lint`, `typecheck` e `test`.
+- [x] 4.2 Completar `.env.example` com variaveis tipadas para API, web, PostgreSQL/PostGIS, Redis, S3/R2 e WebSocket sem segredos reais.
+- [x] 4.3 Ajustar `docker-compose.yml` para PostgreSQL com PostGIS, Redis, API e web com volumes e healthchecks reproduziveis.
+- [x] 4.4 Criar validacao de configuracao na inicializacao de `apps/api` e `apps/web`, falhando com mensagem clara em variavel obrigatoria ausente.
+- [x] 4.5 Configurar migrations Drizzle deterministicas e comandos de aplicar/verificar rollback compativel com a estrategia do projeto.
+- [x] 4.6 Configurar testes unitarios, integracao e E2E por workspace, com banco e Redis isolados para teste.
+- [x] 4.7 Configurar CI para install bloqueado, lint, typecheck, testes, build e validacao OpenSpec.
+- [x] 4.8 Adicionar endpoints de saude da API para processo, banco, Redis e filas, distinguindo saudavel de degradado.
+- [x] 4.9 Criar dados seed minimos do piloto para desenvolvimento, sem copiar massa sensivel do FieldOps.
+- [x] 4.10 Validar onboarding local do zero e registrar os comandos em `README.md`.
 
 ## 5. Contratos compartilhados e modelo de dados
 
-- [ ] 5.1 Definir IDs, timestamps UTC, enums e schemas compartilhados em `packages/shared/src` sem acoplar o PWA ao ORM.
-- [ ] 5.2 Modelar em `packages/db/src` empresas, filiais, usuarios, perfis e sessoes com indices e unicidade por empresa.
-- [ ] 5.3 Modelar tecnicos, vinculo com usuario, filial e disponibilidade sem incluir o People Core completo do legado.
-- [ ] 5.4 Modelar clientes e enderecos de atendimento separados, incluindo coluna PostGIS e snapshot operacional necessario.
-- [ ] 5.5 Modelar tickets, ordens de servico e despachos com FKs, estados, prazos e indices de fila operacional.
-- [ ] 5.6 Modelar `work_order_events` com payload, ator, origem, idempotencia, horarios, offline e localizacao opcional.
-- [ ] 5.7 Modelar `technician_locations`, `evidences`, `sync_receipts` e `audit_logs` com indices de consulta e retencao.
-- [ ] 5.8 Criar constraints que impeçam duplicidade de `idempotency_key` no escopo correto e referencias entre empresas.
-- [ ] 5.9 Criar migrations e testes de schema para constraints, cascatas, soft delete e extensao PostGIS.
-- [ ] 5.10 Documentar o dicionario de dados e decisoes legado -> novo em `docs/DATABASE_MAP.md`.
+- [x] 5.1 Definir IDs, timestamps UTC, enums e schemas compartilhados em `packages/shared/src` sem acoplar o PWA ao ORM.
+- [x] 5.2 Modelar em `packages/db/src` empresas, filiais, usuarios, perfis e sessoes com indices e unicidade por empresa.
+- [x] 5.3 Modelar tecnicos, vinculo com usuario, filial e disponibilidade sem incluir o People Core completo do legado.
+- [x] 5.4 Modelar clientes e enderecos de atendimento separados, incluindo coluna PostGIS e snapshot operacional necessario.
+- [x] 5.5 Modelar tickets, ordens de servico e despachos com FKs, estados, prazos e indices de fila operacional.
+- [x] 5.6 Modelar `work_order_events` com payload, ator, origem, idempotencia, horarios, offline e localizacao opcional.
+- [x] 5.7 Modelar `technician_locations`, `evidences`, `sync_receipts` e `audit_logs` com indices de consulta e retencao.
+- [x] 5.8 Criar constraints que impeçam duplicidade de `idempotency_key` no escopo correto e referencias entre empresas.
+- [x] 5.9 Criar migrations e testes de schema para constraints, cascatas, soft delete e extensao PostGIS.
+- [x] 5.10 Documentar o dicionario de dados e decisoes legado -> novo em `docs/DATABASE_MAP.md`.
 
 ## 6. Identidade, organizacao e autorizacao
 
