@@ -19,6 +19,7 @@
     "node": ">=24"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.0.0",
     "drizzle-orm": "^0.45.2",
     "pg": "^8.12.0"

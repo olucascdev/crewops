@@ -48,7 +48,7 @@ function pick(env: NodeJS.ProcessEnv, key: string): string {
  * every missing required variable. Never returns partial config.
  */
 export function loadConfig(env: NodeJS.ProcessEnv): ApiConfig {
-  const requiredKeys = ["DATABASE_URL", "REDIS_URL"];
+  const requiredKeys = ["DATABASE_URL", "REDIS_URL", "JWT_SECRET"];
   const missing = requiredKeys.filter((key) => !env[key]?.trim());
   if (missing.length > 0) {
     throw new ConfigError(missing);
@@ -73,9 +73,10 @@ export function loadConfig(env: NodeJS.ProcessEnv): ApiConfig {
     redisUrl: pick(env, "REDIS_URL"),
     redisPrefix: env.REDIS_PREFIX ?? DEFAULT_REDIS_PREFIX,
     webOrigin,
-    // JWT is not consumed until the auth module (group 6). Kept optional so the
-    // foundation API boots without an auth secret; validated by group 6.
-    jwtSecret: env.JWT_SECRET ?? "",
+    // HS256 signing/verification secret for access tokens. Required (see
+    // requiredKeys) so the API fails fast at boot without an auth secret instead
+    // of producing a default that would silently accept forged tokens.
+    jwtSecret: pick(env, "JWT_SECRET"),
     jwtExpiresIn: Number(env.JWT_EXPIRES_IN ?? DEFAULT_JWT_EXPIRES_IN_SECONDS),
     queueNames: ["operations", "offline-sync", "evidence"],
   };

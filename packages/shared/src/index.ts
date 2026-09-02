@@ -33,17 +33,8 @@ export type UtcTimestamp = string;
 // ---------------------------------------------------------------------------
 // Perfis (RBAC) — MVP
 // ---------------------------------------------------------------------------
-
-/** Perfis do piloto. `gestor_operacional` e `despachante` podem despachar; `tecnico` via PWA. */
-export const userRoles = [
-  "admin",
-  "gestor_operacional",
-  "atendente",
-  "despachante",
-  "tecnico",
-] as const;
-
-export type UserRole = (typeof userRoles)[number];
+// `userRoles`/`UserRole` movidos para `./roles` e re-exportados abaixo para
+// preservar a API pública do pacote. Fonte nominal única em `./roles`.
 
 // ---------------------------------------------------------------------------
 // Prioridade
@@ -128,9 +119,7 @@ export type EvidenceStatus = (typeof evidenceStatuses)[number];
 // ---------------------------------------------------------------------------
 // Técnico — disponibilidade atual (grade semanal adiada)
 // ---------------------------------------------------------------------------
-
-export const technicianAvailabilities = ["available", "busy", "off"] as const;
-export type TechnicianAvailability = (typeof technicianAvailabilities)[number];
+// `technicianAvailabilities`/`TechnicianAvailability` movidos para `./roles`.
 
 // ---------------------------------------------------------------------------
 // Origem de localização / eventos de GPS
@@ -194,3 +183,13 @@ export const errorCodes = [
 ] as const;
 
 export type ErrorCode = (typeof errorCodes)[number];
+
+// ---------------------------------------------------------------------------
+// Re-exports
+// ---------------------------------------------------------------------------
+
+export * from "./roles";
+export * from "./auth";
+export * from "./user";
+export * from "./organization";
+export * from "./technician";

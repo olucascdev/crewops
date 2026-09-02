@@ -4,3 +4,4 @@
  */
 export const DB_POOL = "DB_POOL";
 export const REDIS_CLIENT = "REDIS_CLIENT";
+export const DB_CLIENT = "DB_CLIENT";

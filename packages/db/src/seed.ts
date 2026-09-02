@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
+import bcrypt from "bcrypt";
 import { sql } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -25,9 +25,9 @@ export type SeedResult = {
   addressId: string;
 };
 
-// Dev-only placeholder, NOT a production secret. The auth module (group 6)
-// replaces this with a real password hashing strategy.
-const DEV_PASSWORD_HASH = createHash("sha256").update("crewops-dev-password").digest("hex");
+// Dev-only placeholder, NOT a production secret. bcrypt hash of the fixed
+// development password so the auth module can verify seeded users (group 6).
+const DEV_PASSWORD_HASH = bcrypt.hashSync("crewops-dev-password", 12);
 
 const TABLES_TO_CLEAR = [
   "evidences",

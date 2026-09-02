@@ -65,6 +65,7 @@ describe.skipIf(!databaseReachable)("HealthService (integration)", () => {
   beforeAll(async () => {
     process.env.DATABASE_URL = dbUrl;
     process.env.REDIS_URL = TEST_REDIS_URL;
+    process.env.JWT_SECRET = "test-secret";
     pool = new Pool({ connectionString: dbUrl });
     redis = new Redis(TEST_REDIS_URL, { lazyConnect: true });
     redis.on("error", () => {});
