@@ -7,7 +7,7 @@ import { loadServerEnv } from "./src/env/server";
 // lives at the monorepo root (`crewops/.env`, copied from `.env.example`). Load
 // both the app-dir `.env` and the root `.env` so the root template really drives
 // the build/start, mirroring the API and db CLI runners.
-loadDotEnv({ path: [join(process.cwd(), ".env"), join(process.cwd(), "../../.env")] });
+loadDotEnv({ path: [join(process.cwd(), ".env"), join(process.cwd(), "../../.env")], quiet: true });
 
 // Fail fast at build/start when a required public env var is missing instead of
 // silently inlining `undefined` into the client bundle. `loadServerEnv` also

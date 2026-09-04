@@ -2,7 +2,9 @@ import "reflect-metadata";
 import { join } from "node:path";
 import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
+import cookieParser from "cookie-parser";
 import { config as loadDotEnv } from "dotenv";
+import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { loadConfig } from "./config";
 import { AppModule } from "./modules/app.module";
 
@@ -17,6 +19,9 @@ const config = loadConfig(process.env);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.setGlobalPrefix("api/v1");
+  app.use(cookieParser());
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
     origin: config.webOrigin,
     credentials: true,

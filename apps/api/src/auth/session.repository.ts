@@ -1,9 +1,9 @@
-import { and, desc, eq, isNull, sql } from "drizzle-orm";
-import { Inject, Injectable } from "@nestjs/common";
 import * as schema from "@crewops/db";
-import { DB_CLIENT } from "../../infra/tokens";
-import type { Db } from "../../infra/db";
 import type { UserRole } from "@crewops/shared";
+import { Inject, Injectable } from "@nestjs/common";
+import { and, desc, eq, isNull, sql } from "drizzle-orm";
+import type { Db } from "../infra/db";
+import { DB_CLIENT } from "../infra/tokens";
 
 export type SessionCreateInput = {
   userId: string;
@@ -84,7 +84,10 @@ export class SessionRepository {
   }
 
   /** Resolves a single user (for refresh/me lookups) scoped by id + company. */
-  async findUserForLoginById(userId: string, companyId: string): Promise<LoginUserCandidate | null> {
+  async findUserForLoginById(
+    userId: string,
+    companyId: string,
+  ): Promise<LoginUserCandidate | null> {
     const rows = await this.db
       .select({
         id: schema.users.id,
@@ -105,7 +108,9 @@ export class SessionRepository {
     return rows[0] as LoginUserCandidate;
   }
 
-  async findByRefreshTokenHash(refreshTokenHash: string): Promise<schema.Session | null> {
+  async findByRefreshTokenHash(
+    refreshTokenHash: string,
+  ): Promise<typeof schema.sessions.$inferSelect | null> {
     const rows = await this.db
       .select()
       .from(schema.sessions)
@@ -114,7 +119,7 @@ export class SessionRepository {
     return rows[0] ?? null;
   }
 
-  async findActiveById(id: string): Promise<schema.Session | null> {
+  async findActiveById(id: string): Promise<typeof schema.sessions.$inferSelect | null> {
     const rows = await this.db
       .select()
       .from(schema.sessions)
@@ -131,10 +136,7 @@ export class SessionRepository {
 
   /** Extends the refresh window on reuse (no rotation this group; see plan). */
   async extendExpiry(id: string, expiresAt: Date): Promise<void> {
-    await this.db
-      .update(schema.sessions)
-      .set({ expiresAt })
-      .where(eq(schema.sessions.id, id));
+    await this.db.update(schema.sessions).set({ expiresAt }).where(eq(schema.sessions.id, id));
   }
 
   async revoke(id: string): Promise<void> {

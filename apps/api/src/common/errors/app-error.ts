@@ -1,4 +1,4 @@
-import { type ErrorCode } from "@crewops/shared";
+import type { ErrorCode } from "@crewops/shared";
 import { HttpException, HttpStatus } from "@nestjs/common";
 
 /**
@@ -9,12 +9,7 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 export class ApiException extends HttpException {
   readonly code: ErrorCode;
 
-  constructor(
-    code: ErrorCode,
-    message: string,
-    status: number,
-    details?: unknown,
-  ) {
+  constructor(code: ErrorCode, message: string, status: number, details?: unknown) {
     super({ error: { code, message, details } }, status);
     this.code = code;
   }

@@ -1,7 +1,7 @@
-import { type ExecutionContext, Injectable } from "@nestjs/common";
 import type { UserRole } from "@crewops/shared";
-import { ForbiddenError } from "../errors/app-error";
+import { type ExecutionContext, Injectable } from "@nestjs/common";
 import type { AuthenticatedRequest } from "../auth/session.types";
+import { ForbiddenError } from "../errors/app-error";
 
 const GESTOR_READ_ROLES: UserRole[] = ["admin", "gestor_operacional"];
 
@@ -25,7 +25,7 @@ export class BranchGuard {
       throw new ForbiddenError("usuário não autenticado");
     }
 
-    const branchId = request.params?.branchId ?? request.body?.branchId;
+    const branchId = request.params?.branchId ?? request.body?.branchId ?? request.query?.branchId;
     if (branchId === undefined || branchId === null || branchId === "") {
       return true;
     }

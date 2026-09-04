@@ -1,5 +1,9 @@
 # Progresso de Implementação — CrewOps
 
+> Atualização em 2026-09-04: este registro estava defasado em relação ao OpenSpec. A fonte de verdade marca somente os Grupos 4 e 5 concluídos. O Grupo 6 contém implementação parcial ainda não aprovada: há módulos e serviços iniciais de autenticação, filiais e usuários, mas faltam repositories, módulo/CRUD de técnicos, telas administrativas, proteção de rotas no web, testes de integração/E2E e a validação completa de sessão, isolamento e auditoria exigida em `docs/plans/group-06-identidade-organizacao-autorizacao.md`. Por isso as tarefas 6.1–6.8 permanecem abertas. Typecheck, testes unitários existentes e build passam, mas não cobrem os critérios do Grupo 6; o build web precisa ser executado fora do sandbox, que bloqueia o processo filho do TypeScript.
+
+> Atualização posterior em 2026-09-04: por autorização expressa do proprietário, o Grupo 7 foi iniciado antes do fechamento do Grupo 6. Foram adicionados contratos Zod, endpoints isolados por empresa para clientes e endereços, ponto PostGIS opcional criado com latitude/longitude juntas, snapshot puro e as rotas do painel. As tarefas 7.1 e 7.2 foram concluídas; 7.3–7.6 continuam abertas até cobrir consulta espacial concreta, integração do snapshot à OS, índice de busca e testes de integração/E2E. `typecheck` e testes unitários passam; a suíte de integração foi pulada por não haver PostgreSQL/Redis disponível.
+
 > Consolidado em 2026-09-01 a partir do arquivo de tarefas OpenSpec, docs do change, worktree e histórico Git.
 
 ## Escopo e governança

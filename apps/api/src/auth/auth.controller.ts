@@ -1,21 +1,15 @@
-import type { Request, Response } from "express";
-import {
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-} from "@nestjs/common";
 import type { AuthLoginInput, AuthMe } from "@crewops/shared";
-import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
-import { authLoginSchema } from "./dto/login.dto";
-import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
-import { CurrentUser } from "../../common/decorators/current-user.decorator";
-import type { AuthenticatedRequest, RequestUser } from "../../common/auth/session.types";
+import { Body, Controller, Get, HttpCode, Inject, Post, Req, Res, UseGuards } from "@nestjs/common";
+import type { Response } from "express";
+import type { AuthenticatedRequest, RequestUser } from "../common/auth/session.types";
+import { CurrentUser } from "../common/decorators/current-user.decorator";
+import { AuthenticatedGuard } from "../common/guards/authenticated.guard";
+import { CsrfGuard } from "../common/guards/csrf.guard";
+import { ZodValidationPipe } from "../common/pipes/zod-validation.pipe";
 import type { ApiConfig } from "../config";
+import { API_CONFIG } from "../infra/tokens";
 import { AuthService } from "./auth.service";
+import { authLoginSchema } from "./dto/login.dto";
 
 const ACCESS_TTL_SECONDS = 15 * 60; // 15 min
 const REFRESH_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 dias
@@ -35,10 +29,11 @@ const CSRF_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 dias
 export class AuthController {
   constructor(
     private readonly auth: AuthService,
-    private readonly config: ApiConfig,
+    @Inject(API_CONFIG) private readonly config: ApiConfig,
   ) {}
 
   @Post("login")
+  @UseGuards(CsrfGuard)
   @HttpCode(200)
   async login(
     @Body(new ZodValidationPipe(authLoginSchema)) input: AuthLoginInput,
@@ -54,6 +49,7 @@ export class AuthController {
   }
 
   @Post("refresh")
+  @UseGuards(CsrfGuard)
   @HttpCode(200)
   async refresh(
     @Req() req: AuthenticatedRequest & { cookies?: Record<string, string> },
@@ -74,6 +70,7 @@ export class AuthController {
   }
 
   @Post("logout")
+  @UseGuards(CsrfGuard)
   @HttpCode(200)
   async logout(
     @Req() req: AuthenticatedRequest & { cookies?: Record<string, string> },
@@ -101,7 +98,7 @@ export class AuthController {
   }
 
   @Get("csrf")
-  async csrf(@Res({ passthrough: true }) res: Response): Promise<{ csrfToken: string; }> {
+  async csrf(@Res({ passthrough: true }) res: Response): Promise<{ csrfToken: string }> {
     const csrfToken = this.auth.generateCsrfToken();
     res.cookie("csrf_token", csrfToken, {
       ...this.cookieOptions(CSRF_TTL_SECONDS),
@@ -120,7 +117,12 @@ export class AuthController {
     };
   }
 
-  private setSessionCookies(res: Response, accessToken: string, refreshToken: string, csrfToken: string): void {
+  private setSessionCookies(
+    res: Response,
+    accessToken: string,
+    refreshToken: string,
+    csrfToken: string,
+  ): void {
     res.cookie("access_token", accessToken, this.cookieOptions(ACCESS_TTL_SECONDS));
     res.cookie("refresh_token", refreshToken, this.cookieOptions(REFRESH_TTL_SECONDS));
     res.cookie("csrf_token", csrfToken, {

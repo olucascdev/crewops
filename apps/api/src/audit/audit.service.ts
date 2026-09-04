@@ -1,15 +1,9 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
 import * as schema from "@crewops/db";
-import { DB_CLIENT } from "../infra/tokens";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { Db } from "../infra/db";
+import { DB_CLIENT } from "../infra/tokens";
 
-export type AuditResource =
-  | "auth"
-  | "user"
-  | "technician"
-  | "branch"
-  | "company"
-  | "work_order";
+export type AuditResource = "auth" | "user" | "technician" | "branch" | "company" | "work_order";
 
 export type AuditAction =
   | "login"
@@ -68,7 +62,10 @@ export class AuditService {
         occurredAt: entry.occurredAt ?? new Date(),
       });
     } catch (error) {
-      this.logger.error(`audit write failed: ${resourceAction(entry)}`, error instanceof Error ? error.stack : undefined);
+      this.logger.error(
+        `audit write failed: ${resourceAction(entry)}`,
+        error instanceof Error ? error.stack : undefined,
+      );
     }
   }
 

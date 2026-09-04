@@ -1,16 +1,12 @@
-import type { UserRole } from "@crewops/shared";
-import { eq, and, isNull, sql } from "drizzle-orm";
-import {
-  type ExecutionContext,
-  Inject,
-  Injectable,
-} from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
 import * as schema from "@crewops/db";
-import { DB_CLIENT } from "../../infra/tokens";
+import type { UserRole } from "@crewops/shared";
+import { type ExecutionContext, Inject, Injectable } from "@nestjs/common";
+import { and, eq, isNull, sql } from "drizzle-orm";
+import { TokenService } from "../../auth/token.service";
 import type { Db } from "../../infra/db";
+import { DB_CLIENT } from "../../infra/tokens";
+import type { AuthenticatedRequest } from "../auth/session.types";
 import { UnauthorizedError } from "../errors/app-error";
-import type { AuthenticatedRequest, RequestUser } from "../auth/session.types";
 
 /** Minimal JWT payload issued for access tokens. */
 export type AccessTokenPayload = {
@@ -39,7 +35,7 @@ export type AccessTokenPayload = {
 export class AuthenticatedGuard {
   constructor(
     @Inject(DB_CLIENT) private readonly db: Db,
-    private readonly jwt: JwtService,
+    private readonly tokens: TokenService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -51,7 +47,7 @@ export class AuthenticatedGuard {
 
     let payload: AccessTokenPayload;
     try {
-      payload = await this.jwt.verifyAsync<AccessTokenPayload>(token);
+      payload = await this.tokens.verifyAccessToken(token);
     } catch {
       throw new UnauthorizedError("sessão inválida ou expirada");
     }

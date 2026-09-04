@@ -13,14 +13,14 @@ import { uuidString } from "./schemas";
 const name = z.string().min(3).max(160);
 const email = z.string().email().max(190);
 
-/** Criação de usuário (admin). Senha opcional: quando omitida, a API usa a senha dev. */
+/** Criação de usuário (admin). A senha inicial é sempre explícita. */
 export const createUserSchema = z.object({
   name,
   email,
   role: z.enum(userRoles),
   status: z.enum(userStatuses).default("active"),
   branchId: uuidString.nullable().optional(),
-  password: z.string().min(8).max(200).optional(),
+  password: z.string().min(8).max(200),
 });
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 

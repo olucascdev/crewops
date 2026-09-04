@@ -1,6 +1,6 @@
 import { type ExecutionContext, Injectable } from "@nestjs/common";
-import { ForbiddenError } from "../errors/app-error";
 import type { AuthenticatedRequest } from "../auth/session.types";
+import { ForbiddenError } from "../errors/app-error";
 
 /**
  * Rejects access to resources that belong to a different company.
@@ -22,10 +22,7 @@ export class CompanyGuard {
       throw new ForbiddenError("usuário não autenticado");
     }
 
-    const candidates: unknown[] = [
-      request.params?.companyId,
-      request.body?.companyId,
-    ];
+    const candidates: unknown[] = [request.params?.companyId, request.body?.companyId];
     for (const candidate of candidates) {
       if (candidate !== undefined && candidate !== null && candidate !== "") {
         if (candidate !== user.companyId) {

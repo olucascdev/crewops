@@ -1,26 +1,20 @@
 import { Module } from "@nestjs/common";
-import { loadConfig } from "../config";
+import { AuditModule } from "../audit/audit.module";
+import { AuthModule } from "../auth/auth.module";
 import { HealthService } from "../health/health.service";
-import { createPool } from "../infra/database";
-import { createRedis } from "../infra/redis";
-import { DB_POOL, REDIS_CLIENT } from "../infra/tokens";
+import { InfraModule } from "../infra/infra.module";
+import { OrganizationsModule } from "../organizations/organizations.module";
 import { RealtimeGateway } from "../realtime/realtime.gateway";
 import { HealthController } from "../routes/health.controller";
 import { OperationsController } from "../routes/operations.controller";
+import { UsersModule } from "../users/users.module";
+import { TechniciansModule } from "../technicians/technicians.module";
+import { CustomersModule } from "../customers/customers.module";
+import { ServiceAddressesModule } from "../service-addresses/service-addresses.module";
 
 @Module({
+  imports: [InfraModule, AuditModule, AuthModule, OrganizationsModule, UsersModule, TechniciansModule, CustomersModule, ServiceAddressesModule],
   controllers: [HealthController, OperationsController],
-  providers: [
-    RealtimeGateway,
-    HealthService,
-    {
-      provide: DB_POOL,
-      useFactory: () => createPool(loadConfig(process.env).databaseUrl),
-    },
-    {
-      provide: REDIS_CLIENT,
-      useFactory: () => createRedis(loadConfig(process.env).redisUrl),
-    },
-  ],
+  providers: [RealtimeGateway, HealthService],
 })
 export class AppModule {}

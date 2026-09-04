@@ -3,7 +3,7 @@ import { loadConfig } from "../config";
 import { createPool } from "./database";
 import { createDrizzle } from "./db";
 import { createRedis } from "./redis";
-import { DB_CLIENT, DB_POOL, REDIS_CLIENT } from "./tokens";
+import { API_CONFIG, DB_CLIENT, DB_POOL, REDIS_CLIENT } from "./tokens";
 
 /**
  * Global infra wiring. All module repositories/guards inject `DB_CLIENT`
@@ -17,6 +17,7 @@ import { DB_CLIENT, DB_POOL, REDIS_CLIENT } from "./tokens";
 @Global()
 @Module({
   providers: [
+    { provide: API_CONFIG, useFactory: () => loadConfig(process.env) },
     {
       provide: DB_POOL,
       useFactory: () => createPool(loadConfig(process.env).databaseUrl),
@@ -31,6 +32,6 @@ import { DB_CLIENT, DB_POOL, REDIS_CLIENT } from "./tokens";
       inject: [DB_POOL],
     },
   ],
-  exports: [DB_POOL, REDIS_CLIENT, DB_CLIENT],
+  exports: [API_CONFIG, DB_POOL, REDIS_CLIENT, DB_CLIENT],
 })
 export class InfraModule {}

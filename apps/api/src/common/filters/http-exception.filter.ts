@@ -1,6 +1,6 @@
-import { type ErrorCode } from "@crewops/shared";
+import type { ErrorCode } from "@crewops/shared";
 import {
-  ArgumentsHost,
+  type ArgumentsHost,
   Catch,
   type ExceptionFilter,
   HttpException,

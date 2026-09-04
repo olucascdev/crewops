@@ -1,6 +1,6 @@
 import { type ExecutionContext, Injectable } from "@nestjs/common";
-import { ForbiddenError } from "../errors/app-error";
 import type { AuthenticatedRequest } from "../auth/session.types";
+import { ForbiddenError } from "../errors/app-error";
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 

@@ -1,10 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
-import type { AuthLoginInput, AuthUser, AuthRedirectTarget, UserRole } from "@crewops/shared";
+import type { AuthLoginInput, AuthRedirectTarget, AuthUser, UserRole } from "@crewops/shared";
+import { Injectable } from "@nestjs/common";
 import { RateLimiterMemory } from "rate-limiter-flexible";
-import { hashIdentifier } from "../../common/utils/tokens";
-import { verifyPassword } from "../../common/utils/password";
-import { RateLimitedError, UnauthorizedError } from "../../common/errors/app-error";
 import { AuditService } from "../audit/audit.service";
+import { RateLimitedError, UnauthorizedError } from "../common/errors/app-error";
+import { verifyPassword } from "../common/utils/password";
+import { hashIdentifier } from "../common/utils/tokens";
 import { SessionRepository } from "./session.repository";
 import { TokenService } from "./token.service";
 
@@ -43,7 +43,10 @@ export class AuthService {
     this.loginLimiter = new RateLimiterMemory({ points: 5, duration: 900 });
   }
 
-  async login(input: AuthLoginInput, meta: { ip: string; userAgent?: string }): Promise<LoginSuccess> {
+  async login(
+    input: AuthLoginInput,
+    meta: { ip: string; userAgent?: string },
+  ): Promise<LoginSuccess> {
     await this.consumeLogin(meta.ip);
 
     const email = input.email.trim().toLowerCase();
@@ -121,7 +124,10 @@ export class AuthService {
     };
   }
 
-  async refresh(rawRefreshToken: string | undefined, meta: { ip: string; userAgent?: string }): Promise<RefreshSuccess> {
+  async refresh(
+    rawRefreshToken: string | undefined,
+    meta: { ip: string; userAgent?: string },
+  ): Promise<RefreshSuccess> {
     if (!rawRefreshToken) {
       throw new UnauthorizedError("sessão necessária");
     }
@@ -132,7 +138,7 @@ export class AuthService {
     }
 
     const user = await this.sessions.findUserForLoginById(session.userId, session.companyId);
-    if (!user || user.status !== "active") {
+    if (user?.status !== "active") {
       await this.sessions.revoke(session.id);
       throw new UnauthorizedError("usuário inativo");
     }
@@ -161,7 +167,10 @@ export class AuthService {
     return { user: this.toAuthUser(user), accessToken };
   }
 
-  async logout(rawRefreshToken: string | undefined, meta: { ip: string; userAgent?: string }): Promise<{ ok: true }> {
+  async logout(
+    rawRefreshToken: string | undefined,
+    meta: { ip: string; userAgent?: string },
+  ): Promise<{ ok: true }> {
     if (rawRefreshToken) {
       const hash = this.tokens.hashRefreshToken(rawRefreshToken);
       const session = await this.sessions.findByRefreshTokenHash(hash);
@@ -200,7 +209,14 @@ export class AuthService {
     return hashIdentifier(value ?? "unknown");
   }
 
-  private toAuthUser(user: { id: string; name: string; email: string; companyId: string; branchId: string | null; role: UserRole }): AuthUser {
+  private toAuthUser(user: {
+    id: string;
+    name: string;
+    email: string;
+    companyId: string;
+    branchId: string | null;
+    role: UserRole;
+  }): AuthUser {
     return {
       id: user.id,
       name: user.name,

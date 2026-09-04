@@ -75,8 +75,8 @@
 
 ## 7. Clientes e enderecos de atendimento
 
-- [ ] 7.1 Implementar modulos `customers` e `service-addresses` na API com busca, paginacao e validacoes aprovadas.
-- [ ] 7.2 Implementar cadastro e consulta de cliente com varios enderecos no painel.
+- [x] 7.1 Implementar modulos `customers` e `service-addresses` na API com busca, paginacao e validacoes aprovadas.
+- [x] 7.2 Implementar cadastro e consulta de cliente com varios enderecos no painel.
 - [ ] 7.3 Implementar persistencia e consulta espacial do endereco com PostGIS, aceitando endereco ainda sem coordenada.
 - [ ] 7.4 Implementar snapshot/contexto de endereco usado por atendimento para preservar prova historica.
 - [ ] 7.5 Adicionar indice e estrategia de busca por nome, documento, codigo externo e endereco.

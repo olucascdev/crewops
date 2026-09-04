@@ -1,11 +1,10 @@
-import { and, eq, isNull } from "drizzle-orm";
-import { type ExecutionContext, Inject, Injectable } from "@nestjs/common";
 import * as schema from "@crewops/db";
-import { DB_CLIENT } from "../../infra/tokens";
+import { type ExecutionContext, Inject, Injectable } from "@nestjs/common";
+import { and, eq, isNull } from "drizzle-orm";
 import type { Db } from "../../infra/db";
-import { ForbiddenError, NotFoundError, UnauthorizedError } from "../errors/app-error";
+import { DB_CLIENT } from "../../infra/tokens";
 import type { AuthenticatedRequest } from "../auth/session.types";
-import { AuditService } from "../../audit/audit.service";
+import { ForbiddenError, NotFoundError, UnauthorizedError } from "../errors/app-error";
 
 /**
  * Restriction of the technician (identity-access spec): a technician may only

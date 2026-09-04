@@ -1,11 +1,8 @@
-import {
-  type ExecutionContext,
-  Injectable,
-} from "@nestjs/common";
+import { type ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import type { AuthenticatedRequest, RequestUser } from "../auth/session.types";
 import { ROLES_KEY } from "../decorators/roles.decorator";
 import { ForbiddenError } from "../errors/app-error";
-import type { AuthenticatedRequest, RequestUser } from "../auth/session.types";
 
 /**
  * Enforces the `@Roles(...)` metadata against the authenticated user's role.
